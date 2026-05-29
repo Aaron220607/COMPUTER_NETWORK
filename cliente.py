@@ -9,3 +9,5 @@ def main():
     respuesta = client.recv(4096).decode()
     print('Respuesta del servidor:', respuesta)
     client.close()
+if __name__ == '__main__':
+    main()

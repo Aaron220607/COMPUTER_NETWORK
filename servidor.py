@@ -1,16 +1,19 @@
 import socket
+
 def main():
     host = '0.0.0.0'
     port = 5000
-    server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-    server.bind((host,port))
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.bind((host, port))
     server.listen()
-    print('Servidor escuchando en el puerto:',port)
+    print('Servidor escuchando en el puerto:', port)
+    
     while True:
         conn, addr = server.accept()
         print('Conexión establecida desde:', addr)
         dominio = conn.recv(1024).decode()
         print('Dominio recibido:', dominio)
+        
         try:
             ip = socket.gethostbyname(dominio)
             ip_servidor = socket.gethostbyname(socket.gethostname())
@@ -20,7 +23,13 @@ def main():
             Tu IP: {addr[0]}
             IP del servidor: {ip_servidor}
             """
-        except :
+        except Exception:
             respuesta = 'Error: No se pudo resolver el dominio.'
-            conn.send(respuesta.encode())
-            conn.close()
+        
+        # ESTO DEBE ESTAR FUERA DEL TRY/EXCEPT:
+        # Se envía la respuesta (sea la IP o sea el error) y se cierra la conexión con ESTE cliente.
+        conn.send(respuesta.encode())
+        conn.close()
+
+if __name__ == '__main__':
+    main()
