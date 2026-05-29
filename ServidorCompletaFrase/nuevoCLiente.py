@@ -23,7 +23,6 @@ def main():
                 print('Cerrando conexion...')
                 break
             case 2:
-                client.send('completar'.encode())
                 frase = input('Ponga hola y el servidor le respondera con mundo: ')
                 client.send(frase.encode())
                 respuesta = client.recv(4096).decode()
