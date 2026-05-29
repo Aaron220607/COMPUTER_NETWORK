@@ -29,9 +29,7 @@ def main():
                 print('Respuesta del servidor:', respuesta)
             case _:
                 print('Opcion no valida, por favor ingresa una opcion valida')
-                client.send(opcion.encode())
-                respuesta = client.recv(4096).decode()
-                print('Respuesta del servidor:', respuesta)
+                
 
     client.close()
 
