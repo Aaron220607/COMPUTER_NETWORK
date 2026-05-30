@@ -11,8 +11,7 @@ def main():
     print(f"Conexión establecida desde {address}")
     conexion = True
     while conexion:
-        connection.send("Bienvenido al servidor".encode())
-        connection.send("Escoga la operacion y sus dijitos".encode())
+        connection.send("Bienvenido al servidor Escoga la operacion y sus dijitos".encode())
         data = connection.recv(1024).decode().lower()
         menuOperaciones(data, connection)
 
@@ -28,6 +27,14 @@ def menuOperaciones(data, connection):
             resultado = int(data[1]) - int(data[2])
             connection.send(f"El resultado de la resta es: {resultado}".encode())
 
+        case "multiplicacion":
+            resultado = int(data[1]) * int(data[2])
+            connection.send(f"El resultado de la multiplicacion es: {resultado}".encode())
+        case "division":
+            resultado = int(data[1]) / int(data[2])
+            connection.send(f"El resultado de la division es: {resultado}".encode())
+
         case _:
             connection.send("Operación no reconocida".encode())
-    
+if __name__ == "__main__":
+    main()
