@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutorial Yinkana Redes II — ESI UCLM</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0D0D0D;--s1:#141414;--s2:#1C1C1C;--b1:#2A2A2A;--b2:#383838;--tx:#E8E4DC;--mu:#888;--fa:#444;--ac:#F0C040;--bl:#6BB8FF;--gr:#6BFF9E;--re:#FF6B6B;--pu:#C06BFF;--or:#FFA040;--pi:#FF6BB8;}
+*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Source Serif 4',serif;font-size:16px;line-height:1.8;}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:4rem 3rem;position:relative;overflow:hidden;border-bottom:1px solid var(--b1);}
+.hgrid{position:absolute;inset:0;background-image:linear-gradient(var(--b1) 1px,transparent 1px),linear-gradient(90deg,var(--b1) 1px,transparent 1px);background-size:60px 60px;opacity:.35;}
+.hglow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(192,107,255,.07) 0%,transparent 70%);top:-80px;right:-80px;}
+.hi{max-width:900px;margin:0 auto;position:relative;}
+.hbadge{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--pu);border:1px solid var(--pu);display:inline-block;padding:5px 14px;border-radius:2px;margin-bottom:2rem;}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.5rem,7vw,6.5rem);font-weight:800;line-height:.95;margin-bottom:1.5rem;letter-spacing:-2px;}
+.hero h1 span{color:var(--pu);}
+.hero p{font-size:1rem;color:var(--mu);max-width:560px;font-style:italic;margin-bottom:2.5rem;}
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;}
+.ti{background:var(--s1);border:1px solid var(--b1);border-radius:4px;padding:12px 16px;text-decoration:none;display:block;transition:all .2s;}
+.ti:hover{border-color:var(--pu);}
+.ti-n{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--pu);margin-bottom:3px;}
+.ti-t{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--tx);}
+.snav{position:fixed;left:0;top:0;bottom:0;width:220px;background:var(--s1);border-right:1px solid var(--b1);padding:1.5rem 0;overflow-y:auto;z-index:100;transform:translateX(-100%);transition:transform .3s;}
+.snav.open{transform:translateX(0);}
+.snav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:var(--pu);padding:0 1.5rem 1rem;border-bottom:1px solid var(--b1);margin-bottom:1rem;}
+.snav a{display:block;padding:8px 1.5rem;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;color:var(--mu);text-decoration:none;}
+.snav a:hover{color:var(--tx);background:var(--s2);}
+.snav a.active{color:var(--pu);border-left:2px solid var(--pu);}
+.ntog{position:fixed;top:1.2rem;left:1.2rem;z-index:200;background:var(--s1);border:1px solid var(--b1);color:var(--tx);font-size:17px;width:38px;height:38px;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.main{max-width:860px;margin:0 auto;padding:4rem 2rem 8rem;}
+.tema{margin-bottom:5rem;padding-top:2rem;border-top:1px solid var(--b1);}
+.tema:first-child{border-top:none;}
+.teyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--pu);letter-spacing:2px;text-transform:uppercase;margin-bottom:.4rem;}
+.ttitle{font-family:'Syne',sans-serif;font-size:clamp(1.7rem,3.5vw,2.8rem);font-weight:800;line-height:1.05;letter-spacing:-1px;}
+.tdesc{margin-top:.75rem;font-size:14px;color:var(--mu);font-style:italic;max-width:600px;}
+.blk{margin-bottom:1.75rem;}
+.blk-lbl{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:.6rem;}
+.lbl-py{color:var(--ac);}
+.lbl-gr{color:var(--gr);}
+.lbl-bl{color:var(--bl);}
+.lbl-re{color:var(--re);}
+.lbl-pu{color:var(--pu);}
+.tbox{background:var(--s1);border:1px solid var(--b1);border-left:3px solid var(--pu);border-radius:0 4px 4px 0;padding:1.1rem 1.4rem;font-size:14.5px;line-height:1.85;}
+.tbox p+p{margin-top:.65rem;}
+.tbox strong{color:var(--tx);}
+.tbox.ac{border-left-color:var(--ac);}
+.tbox.bl{border-left-color:var(--bl);}
+.tbox.gr{border-left-color:var(--gr);}
+.tbox.re{border-left-color:var(--re);}
+pre.cb{background:var(--s2);border:1px solid var(--b1);border-radius:4px;padding:1rem 1.4rem;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9;overflow-x:auto;color:var(--tx);margin-top:.65rem;}
+pre.cb .cm{color:var(--mu);}
+pre.cb .kw{color:var(--pu);}
+pre.cb .st{color:var(--gr);}
+pre.cb .vl{color:var(--ac);}
+pre.cb .fn{color:var(--bl);}
+pre.cb .ty{color:var(--or);}
+code{font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--s2);border:1px solid var(--b1);padding:2px 5px;border-radius:2px;color:var(--pu);}
+.ejw{border:1px solid var(--b2);border-radius:4px;overflow:hidden;margin-bottom:10px;}
+.ejh{display:flex;align-items:center;gap:10px;padding:13px 15px;cursor:pointer;background:var(--s1);user-select:none;}
+.ejh:hover{background:var(--s2);}
+.ejbdg{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:2px;flex-shrink:0;}
+.bdg-py{background:rgba(240,192,64,.14);color:var(--ac);}
+.bdg-hi{background:rgba(192,107,255,.14);color:var(--pu);}
+.ejq{font-size:13.5px;flex:1;font-family:'Syne',sans-serif;font-weight:500;line-height:1.4;}
+.ejarr{color:var(--fa);font-size:15px;transition:transform .2s;flex-shrink:0;}
+.ejarr.open{transform:rotate(180deg);}
+.ejb{display:none;padding:1.1rem 1.4rem;border-top:1px solid var(--b1);background:var(--bg);font-size:14px;line-height:1.8;}
+.ejb.open{display:block;}
+.nota{background:rgba(192,107,255,.05);border-left:2px solid var(--pu);padding:9px 13px;font-size:13px;color:var(--mu);margin-top:.65rem;font-style:italic;}
+.nota strong{color:var(--pu);font-style:normal;}
+.nota.gr{border-left-color:var(--gr);background:rgba(107,255,158,.05);}
+.nota.gr strong{color:var(--gr);}
+.nota.re{border-left-color:var(--re);background:rgba(255,107,107,.05);}
+.nota.re strong{color:var(--re);}
+.nota.ac{border-left-color:var(--ac);background:rgba(240,192,64,.05);}
+.nota.ac strong{color:var(--ac);}
+.cbox{background:rgba(192,107,255,.04);border:1px solid rgba(192,107,255,.18);border-radius:4px;padding:.9rem 1.2rem;font-size:13.5px;color:var(--mu);margin-top:8px;}
+.cbox+.cbox{margin-top:8px;}
+.cbox strong{color:var(--pu);}
+.hito-card{background:var(--s1);border:1px solid var(--b1);border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;}
+.hito-top{display:flex;align-items:center;gap:14px;margin-bottom:12px;flex-wrap:wrap;}
+.hito-num{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--pu);background:rgba(192,107,255,.1);border:1px solid rgba(192,107,255,.3);padding:4px 12px;border-radius:2px;flex-shrink:0;}
+.hito-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--tx);flex:1;}
+.hito-proto{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--bl);background:rgba(107,184,255,.08);border:1px solid rgba(107,184,255,.2);border-radius:2px;padding:3px 9px;flex-shrink:0;}
+.step-list{list-style:none;padding:0;}
+.step-list li{display:flex;gap:10px;margin-bottom:8px;font-size:14px;align-items:flex-start;}
+.step-dot{width:20px;height:20px;border-radius:50%;background:var(--pu);color:var(--bg);font-family:'Syne',sans-serif;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px;}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:.65rem;}
+th{background:var(--s2);color:var(--pu);font-family:'Syne',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:9px 13px;text-align:left;border-bottom:1px solid var(--b2);}
+td{padding:9px 13px;border-bottom:1px solid var(--b1);}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--s1);}
+</style>
+</head>
+<body>
+<button class="ntog" onclick="document.getElementById('snav').classList.toggle('open')">&#9776;</button>
+<nav class="snav" id="snav">
+  <div class="snav-logo">Yinkana Redes II</div>
+  <a href="#hero">&#8593; Portada</a>
+  <a href="#python">&#128013; Tutorial Python</a>
+  <a href="#sockets">&#128279; Sockets en Python</a>
+  <a href="#h0">Hito 0 &mdash; TCP b&aacute;sico</a>
+  <a href="#h1">Hito 1 &mdash; UDP + bind</a>
+  <a href="#h2">Hito 2 &mdash; Longitudes</a>
+  <a href="#h3">Hito 3 &mdash; C&eacute;sar</a>
+  <a href="#h4">Hito 4 &mdash; Hash MD5</a>
+  <a href="#h5">Hito 5 &mdash; Protocolo YAP</a>
+  <a href="#h6">Hito 6 &mdash; Proxy HTTP</a>
+  <a href="#h7">Hito 7 &mdash; Final</a>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="hgrid"></div><div class="hglow"></div>
+  <div class="hi">
+    <div class="hbadge">Redes II &middot; ESI UCLM &middot; Python 3</div>
+    <h1>Tutorial<br><span>Yinkana</span><br>de Redes</h1>
+    <p>Tutorial completo de Python para la yinkana: desde cero con sockets hasta entender cada hito de la yinkana_2324.py.</p>
+    <div class="toc">
+      <a class="ti" href="#python"><div class="ti-n">PARTE 1</div><div class="ti-t">Python desde cero</div></a>
+      <a class="ti" href="#sockets"><div class="ti-n">PARTE 2</div><div class="ti-t">Sockets en Python</div></a>
+      <a class="ti" href="#h0"><div class="ti-n">HITO 0</div><div class="ti-t">TCP b&aacute;sico</div></a>
+      <a class="ti" href="#h1"><div class="ti-n">HITO 1</div><div class="ti-t">UDP + bind</div></a>
+      <a class="ti" href="#h2"><div class="ti-n">HITO 2</div><div class="ti-t">Longitudes</div></a>
+      <a class="ti" href="#h3"><div class="ti-n">HITO 3</div><div class="ti-t">Cifrado C&eacute;sar</div></a>
+      <a class="ti" href="#h4"><div class="ti-n">HITO 4</div><div class="ti-t">Hash MD5</div></a>
+      <a class="ti" href="#h5"><div class="ti-n">HITO 5</div><div class="ti-t">Protocolo YAP</div></a>
+      <a class="ti" href="#h6"><div class="ti-n">HITO 6</div><div class="ti-t">Proxy HTTP</div></a>
+      <a class="ti" href="#h7"><div class="ti-n">HITO 7</div><div class="ti-t">Victoria</div></a>
+    </div>
+  </div>
+</section>
+
+<main class="main">
+
+<!-- PYTHON DESDE CERO -->
+<section class="tema" id="python">
+<div class="teyebrow">Parte 1</div>
+<div class="ttitle">Python desde cero</div>
+<div class="tdesc">Lo que necesitas saber de Python para entender y modificar la yinkana. Todo con ejemplos directos del c&oacute;digo real.</div>
+
+<div class="blk" style="margin-top:1.5rem;">
+<div class="blk-lbl lbl-py">Variables y anotaciones de tipo</div>
+<div class="tbox ac">
+<p>Python es din&aacute;mico: no declaras el tipo. Pero la yinkana usa <strong>anotaciones de tipo</strong> (type hints). Son opcionales pero ayudan a entender qu&eacute; espera cada funci&oacute;n.</p>
+</div>
+<pre class="cb"><span class="cm"># Sin anotaciones (Python clasico)</span>
+nombre = <span class="st">"fast_rhino"</span>
+puerto = <span class="vl">2000</span>
+
+<span class="cm"># Con anotaciones de tipo (como en la yinkana)</span>
+nombre: <span class="ty">str</span> = <span class="st">"fast_rhino"</span>
+puerto: <span class="ty">int</span> = <span class="vl">2000</span>
+datos: <span class="ty">bytes</span> = <span class="st">b"hola"</span>   <span class="cm"># bytes: cadena de bytes, no texto</span>
+activo: <span class="ty">bool</span> = <span class="kw">True</span>
+
+<span class="cm"># Las anotaciones NO hacen nada en ejecucion, son solo documentacion</span></pre>
+</div>
+
+<div class="blk">
+<div class="blk-lbl lbl-py">bytes vs str &mdash; LA diferencia m&aacute;s importante</div>
+<div class="tbox ac">
+<p>En la yinkana <strong>casi todo son <code>bytes</code>, no <code>str</code></strong>. La red trabaja con bytes. Entender la diferencia es clave para no tener errores raros.</p>
+</div>
+<pre class="cb"><span class="cm"># str: texto Unicode para el humano</span>
+texto: <span class="ty">str</span> = <span class="st">"hola mundo"</span>
+
+<span class="cm"># bytes: secuencia de bytes raw, lo que viaja por la red</span>
+datos: <span class="ty">bytes</span> = <span class="st">b"hola mundo"</span>   <span class="cm"># la b delante indica bytes</span>
+
+<span class="cm"># Convertir entre ellos</span>
+texto_a_bytes = texto.<span class="fn">encode</span>()             <span class="cm"># str -> bytes (UTF-8)</span>
+bytes_a_texto = datos.<span class="fn">decode</span>()             <span class="cm"># bytes -> str</span>
+
+<span class="cm"># En la yinkana lo ves constantemente:</span>
+<span class="ty">bytes</span>(<span class="fn">str</span>(puerto_libre), encoding=<span class="st">"utf-8"</span>)  <span class="cm"># int -> str -> bytes</span>
+recibido.<span class="fn">decode</span>()                            <span class="cm"># para imprimir lo recibido</span>
+
+<span class="cm"># Concatenar bytes (no se puede mezclar con str)</span>
+mensaje = <span class="st">b"puerto: "</span> + <span class="ty">bytes</span>(<span class="fn">str</span>(<span class="vl">8080</span>), encoding=<span class="st">"utf-8"</span>)
+
+<span class="cm"># Comprobar si empieza por algo</span>
+<span class="kw">if</span> recibido.<span class="fn">startswith</span>(<span class="st">b"identifier:"</span>):
+    <span class="fn">print</span>(<span class="st">"es el identificador!"</span>)
+
+<span class="cm"># upper() tambien funciona en bytes</span>
+<span class="st">b"fast_rhino"</span>.<span class="fn">upper</span>()   <span class="cm"># -> b"FAST_RHINO"</span></pre>
+</div>
+
+<div class="blk">
+<div class="blk-lbl lbl-py">Funciones con type hints</div>
+<pre class="cb"><span class="cm"># Funcion basica con anotaciones</span>
+<span class="kw">def</span> <span class="fn">hito0</span>(ip: <span class="ty">str</span>, puerto: <span class="ty">int</span>, username: <span class="ty">bytes</span>) -> <span class="ty">bytes</span>:
+    <span class="cm"># ip: una cadena de texto como "rick"</span>
+    <span class="cm"># puerto: un numero entero como 2000</span>
+    <span class="cm"># username: bytes como b"fast_rhino"</span>
+    <span class="cm"># -> bytes: devuelve bytes</span>
+    recibido: <span class="ty">bytes</span>
+    <span class="cm"># ... codigo ...</span>
+    <span class="kw">return</span> recibido
+
+<span class="cm"># Llamar a la funcion</span>
+resultado = <span class="fn">hito0</span>(<span class="st">"rick"</span>, <span class="vl">2000</span>, <span class="st">b"fast_rhino"</span>)</pre>
+</div>
+
+<div class="blk">
+<div class="blk-lbl lbl-py">with &mdash; context manager</div>
+<div class="tbox ac">
+<p>El <code>with</code> garantiza que el socket se cierra aunque haya un error. Es el patr&oacute;n que usa la yinkana en todos los hitos.</p>
+</div>
+<pre class="cb"><span class="cm"># Sin with (malo): si falla recv, el socket queda abierto</span>
+s = socket.<span class="fn">socket</span>()
+s.<span class="fn">connect</span>((<span class="st">"rick"</span>, <span class="vl">2000</span>))
+datos = s.<span class="fn">recv</span>(<span class="vl">1024</span>)
+s.<span class="fn">close</span>()   <span class="cm"># si la linea anterior falla, esto no se ejecuta</span>
+
+<span class="cm"># Con with (bien): se cierra siempre</span>
+<span class="kw">with</span> socket.<span class="fn">socket</span>() <span class="kw">as</span> cliente:
+    cliente.<span class="fn">connect</span>((<span class="st">"rick"</span>, <span class="vl">2000</span>))
+    datos = cliente.<span class="fn">recv</span>(<span class="vl">1024</span>)
+<span class="cm"># socket cerrado automaticamente aqui</span></pre>
+</div>
+
+<div class="blk">
+<div class="blk-lbl lbl-py">split, pop y listas de bytes</div>
+<pre class="cb"><span class="cm"># split: dividir bytes por separador</span>
+recibido = <span class="st">b"1234:datos del archivo"</span>
+longitud_b, resto = recibido.<span class="fn">split</span>(<span class="st">b":"</span>, <span class="vl">1</span>)   <span class="cm"># max 1 division</span>
+<span class="cm"># longitud_b = b"1234", resto = b"datos del archivo"</span>
+
+palabras = <span class="st">b"hola mundo adios"</span>.<span class="fn">split</span>(<span class="st">b" "</span>)
+<span class="cm"># palabras = [b"hola", b"mundo", b"adios"]</span>
+
+<span class="cm"># pop(0): quitar y devolver el primero de la lista</span>
+lista = [<span class="st">b"uno"</span>, <span class="st">b"dos"</span>, <span class="st">b"tres"</span>]
+primero = lista.<span class="fn">pop</span>(<span class="vl">0</span>)   <span class="cm"># primero=b"uno", lista=[b"dos", b"tres"]</span>
+
+<span class="cm"># Generator expression: aplica una funcion a cada elemento</span>
+descifrado = <span class="ty">bytes</span>(<span class="fn">descifrar_chr</span>(c, numero) <span class="kw">for</span> c <span class="kw">in</span> recorte)
+<span class="cm"># Al iterar bytes en Python 3, cada c es un int (codigo ASCII)</span>
+<span class="cm"># for c in b"hola"  ->  c = 104, 111, 108, 97</span></pre>
+</div>
+
+<div class="blk">
+<div class="blk-lbl lbl-py">M&oacute;dulos usados en la yinkana</div>
+<table>
+<tr><th>M&oacute;dulo</th><th>Para qu&eacute; se usa en la yinkana</th></tr>
+<tr><td><code>socket</code></td><td>Comunicaci&oacute;n TCP/UDP por red</td></tr>
+<tr><td><code>logging</code></td><td>Imprimir mensajes de depuraci&oacute;n con nivel</td></tr>
+<tr><td><code>re</code></td><td>Extraer el identificador con expresi&oacute;n regular</td></tr>
+<tr><td><code>hashlib</code></td><td>Calcular el hash MD5 del hito 4</td></tr>
+<tr><td><code>base64</code></td><td>Codificar/decodificar la carga del protocolo YAP</td></tr>
+<tr><td><code>struct</code></td><td>Empaquetar/desempaquetar la cabecera binaria YAP</td></tr>
+<tr><td><code>array</code></td><td>Calcular el checksum del paquete YAP</td></tr>
+<tr><td><code>_thread</code></td><td>Lanzar hilos en el hito 6 (proxy)</td></tr>
+<tr><td><code>urllib.parse</code></td><td>Decodificar la URL del submit en el hito 6</td></tr>
+</table>
+</div>
+
+<div class="blk">
+<div class="blk-lbl lbl-py">logging &mdash; c&oacute;mo depurar</div>
+<pre class="cb"><span class="kw">import</span> logging
+
+<span class="cm"># Configurar al inicio (como en main())</span>
+logging.<span class="fn">basicConfig</span>(
+    format=<span class="st">"%(levelname)s: %(funcName)s: %(message)s"</span>,
+    level=logging.DEBUG    <span class="cm"># muestra todo</span>
+)
+
+<span class="cm"># Niveles de menor a mayor gravedad:</span>
+logging.<span class="fn">debug</span>(<span class="st">"variable vale: %s"</span>, variable)   <span class="cm"># solo para depurar</span>
+logging.<span class="fn">info</span>(<span class="st">"informacion: %d"</span>, numero)
+logging.<span class="fn">warning</span>(<span class="st">"advertencia"</span>)
+logging.<span class="fn">error</span>(<span class="st">"error: %s"</span>, ex)
+
+<span class="cm"># Para ver solo INFO en adelante (ocultar DEBUG):</span>
+logging.<span class="fn">basicConfig</span>(level=logging.INFO)</pre>
+</div>
+
+<div class="blk">
+<div class="blk-lbl lbl-py">struct &mdash; empaquetar datos binarios</div>
+<div class="tbox ac">
+<p>Convierte tipos Python a bytes en un formato binario exacto. Esencial para el Hito 5 (protocolo YAP).</p>
+</div>
+<pre class="cb"><span class="kw">import</span> struct
+
+<span class="cm"># Formato "!3sHBHH":</span>
+<span class="cm"># !  = big-endian (formato de red)</span>
+<span class="cm"># 3s = 3 bytes (string de longitud fija)</span>
+<span class="cm"># H  = unsigned short = 2 bytes sin signo</span>
+<span class="cm"># B  = unsigned char  = 1 byte sin signo</span>
+<span class="cm"># Total cabecera: 3+2+1+2+2 = 10 bytes</span>
+
+<span class="cm"># Empaquetar: Python -> bytes</span>
+cabecera = struct.<span class="fn">pack</span>(<span class="st">"!3sHBHH"</span>, <span class="st">b"YAP"</span>, <span class="vl">0</span>, <span class="vl">0</span>, <span class="vl">0</span>, <span class="vl">1</span>)
+
+<span class="cm"># Desempaquetar: bytes -> Python</span>
+num_mag, tipo, codigo, suma, seq = struct.<span class="fn">unpack</span>(<span class="st">"!3sHBHH"</span>, mensaje[:<span class="vl">10</span>])
+
+<span class="cm"># Acceder al resto del mensaje (la carga)</span>
+carga = mensaje[<span class="vl">10</span>:]   <span class="cm"># todo lo que hay despues de los 10 bytes de cabecera</span></pre>
+</div>
+
+<div class="blk">
+<div class="blk-lbl lbl-py">base64 y hashlib</div>
+<pre class="cb"><span class="kw">import</span> base64, hashlib
+
+<span class="cm"># base64: codificar bytes en texto ASCII imprimible</span>
+codificado = base64.<span class="fn">b64encode</span>(<span class="st">b"hola"</span>)    <span class="cm"># -> b'aG9sYQ=='</span>
+original   = base64.<span class="fn">b64decode</span>(codificado)  <span class="cm"># -> b'hola'</span>
+
+<span class="cm"># hashlib MD5: calcular hash de datos</span>
+hasher = hashlib.<span class="fn">md5</span>()
+hasher.<span class="fn">update</span>(<span class="st">b"primera parte"</span>)   <span class="cm"># se puede llamar varias veces</span>
+hasher.<span class="fn">update</span>(<span class="st">b"segunda parte"</span>)
+resultado = hasher.<span class="fn">digest</span>()        <span class="cm"># 16 bytes raw del MD5</span>
+hex_str   = hasher.<span class="fn">hexdigest</span>()     <span class="cm"># string hexadecimal legible</span>
+
+<span class="cm"># Importante: update() es acumulativo</span>
+<span class="cm"># update(a); update(b) == update(a+b)</span></pre>
+</div>
+
+<div class="blk">
+<div class="blk-lbl lbl-py">regex con re</div>
+<pre class="cb"><span class="kw">import</span> re
+
+<span class="cm"># Patron: b"^identifier:(.+)$"</span>
+<span class="cm"># ^           inicio de linea</span>
+<span class="cm"># identifier: literal</span>
+<span class="cm"># (.+)        captura uno o mas caracteres -> grupo 1</span>
+<span class="cm"># $           fin de linea</span>
+<span class="cm"># re.MULTILINE: ^ y $ se aplican a cada linea</span>
+
+msg = <span class="st">b"bienvenido\nidentifier:abc123\nhaz lo siguiente"</span>
+match = re.<span class="fn">search</span>(<span class="st">b"^identifier:(.+)$"</span>, msg, re.MULTILINE)
+<span class="kw">if</span> match:
+    identificador = match.<span class="fn">group</span>(<span class="vl">1</span>)   <span class="cm"># -> b"abc123"</span></pre>
+</div>
+</section>
+
+<!-- SOCKETS -->
+<section class="tema" id="sockets">
+<div class="teyebrow">Parte 2</div>
+<div class="ttitle">Sockets en Python</div>
+<div class="tdesc">La biblioteca <code>socket</code> de Python es la interfaz directa a las llamadas de red del SO. Todo lo que usa la yinkana explicado aqu&iacute;.</div>
+
+<div class="blk" style="margin-top:1.5rem;">
+<div class="blk-lbl lbl-bl">TCP &mdash; cliente b&aacute;sico</div>
+<pre class="cb"><span class="kw">import</span> socket
+
+<span class="cm"># socket.socket() sin argumentos = TCP + IPv4</span>
+<span class="kw">with</span> socket.<span class="fn">socket</span>() <span class="kw">as</span> cliente:
+    cliente.<span class="fn">connect</span>((<span class="st">"rick"</span>, <span class="vl">2000</span>))   <span class="cm"># (ip, puerto) como tupla</span>
+
+    <span class="cm"># sendall garantiza que se envian TODOS los bytes</span>
+    cliente.<span class="fn">sendall</span>(<span class="st">b"fast_rhino"</span>)
+
+    <span class="cm"># recv(n) devuelve HASTA n bytes. Puede ser menos.</span>
+    recibido = cliente.<span class="fn">recv</span>(<span class="vl">1024</span>)
+
+<span class="cm"># Para recibir un mensaje completo a veces hay que hacer un bucle:</span>
+<span class="kw">while</span> enunciado <span class="kw">is None</span>:
+    recibido = cliente.<span class="fn">recv</span>(<span class="vl">1024</span>)
+    <span class="kw">if</span> recibido.<span class="fn">startswith</span>(<span class="st">b"identifier:"</span>):
+        enunciado = recibido</pre>
+<div class="nota ac"><strong>Cuidado con recv():</strong> TCP es un flujo de bytes, no de mensajes. Un recv(1024) puede devolver 10 bytes aunque el servidor haya enviado 500. Por eso en muchos hitos hay un bucle leyendo hasta cumplir una condici&oacute;n.</div>
+</div>
+
+<div class="blk">
+<div class="blk-lbl lbl-bl">UDP &mdash; sendto y recvfrom</div>
+<pre class="cb"><span class="cm"># UDP: hay que pasar type=socket.SOCK_DGRAM</span>
+<span class="kw">with</span> socket.<span class="fn">socket</span>(type=socket.SOCK_DGRAM) <span class="kw">as</span> cliente:
+
+    <span class="cm"># Enviar a (ip, puerto) - no hay connect() en UDP</span>
+    cliente.<span class="fn">sendto</span>(mensaje, (<span class="st">"rick"</span>, <span class="vl">4000</span>))
+
+    <span class="cm"># Recibir: devuelve (datos, (ip_origen, puerto_origen))</span>
+    recibido, direccion_origen = cliente.<span class="fn">recvfrom</span>(<span class="vl">1024</span>)
+
+    <span class="cm"># Responder al que nos envio el mensaje</span>
+    cliente.<span class="fn">sendto</span>(respuesta, direccion_origen)
+
+<span class="cm"># UDP + bind: reservar un puerto libre</span>
+<span class="kw">with</span> socket.<span class="fn">socket</span>(type=socket.SOCK_DGRAM) <span class="kw">as</span> s:
+    s.<span class="fn">bind</span>((<span class="st">""</span>, <span class="vl">0</span>))                      <span class="cm"># "" = cualquier interfaz, 0 = puerto libre</span>
+    puerto_libre = s.<span class="fn">getsockname</span>()[<span class="vl">1</span>]   <span class="cm"># [1] = el puerto asignado</span></pre>
+</div>
+
+<div class="blk">
+<div class="blk-lbl lbl-bl">TCP &mdash; servidor (bind + listen + accept)</div>
+<pre class="cb"><span class="kw">with</span> socket.<span class="fn">socket</span>() <span class="kw">as</span> servidor:
+    servidor.<span class="fn">bind</span>((<span class="st">""</span>, <span class="vl">0</span>))                        <span class="cm"># puerto libre</span>
+    puerto_libre = servidor.<span class="fn">getsockname</span>()[<span class="vl">1</span>]
+    servidor.<span class="fn">listen</span>(<span class="vl">4</span>)                             <span class="cm"># cola de hasta 4 conexiones</span>
+
+    <span class="kw">while</span> <span class="kw">True</span>:
+        peticion, direccion = servidor.<span class="fn">accept</span>()   <span class="cm"># bloquea hasta nueva conexion</span>
+        datos = peticion.<span class="fn">recv</span>(<span class="vl">1024</span>)
+        peticion.<span class="fn">sendall</span>(<span class="st">b"respuesta"</span>)
+        peticion.<span class="fn">close</span>()</pre>
+</div>
+
+<div class="blk">
+<div class="blk-lbl lbl-bl">Diferencias TCP vs UDP</div>
+<table>
+<tr><th>Caracter&iacute;stica</th><th>TCP (SOCK_STREAM)</th><th>UDP (SOCK_DGRAM)</th></tr>
+<tr><td>Conexi&oacute;n</td><td><code>connect()</code> requerido</td><td>No hay conexi&oacute;n</td></tr>
+<tr><td>Enviar</td><td><code>sendall(datos)</code></td><td><code>sendto(datos, (ip,puerto))</code></td></tr>
+<tr><td>Recibir</td><td><code>recv(n)</code></td><td><code>recvfrom(n)</code> &rarr; (datos, origen)</td></tr>
+<tr><td>Fiabilidad</td><td>Garantiza entrega y orden</td><td>No garantiza nada</td></tr>
+<tr><td>Fragmentaci&oacute;n</td><td>Puede fragmentar (flujo continuo)</td><td>Un paquete = un datagrama</td></tr>
+<tr><td>Hito yinkana</td><td>0, 2, 3, 4, 6, 7</td><td>1, 5</td></tr>
+</table>
+</div>
+</section>
+
+<!-- HITO 0 -->
+<section class="tema" id="h0">
+<div class="teyebrow">Hito 0</div>
+<div class="ttitle">TCP b&aacute;sico &mdash; registro</div>
+<div class="tdesc">El m&aacute;s simple. Conectar por TCP, recibir bienvenida, enviar nombre de usuario y recibir el primer identificador.</div>
+
+<div class="blk" style="margin-top:1.5rem;">
+<div class="hito-card">
+  <div class="hito-top">
+    <span class="hito-num">Hito 0</span>
+    <span class="hito-title">Registro de usuario</span>
+    <span class="hito-proto">TCP &mdash; rick:2000</span>
+  </div>
+  <ul class="step-list">
+    <li><div class="step-dot">1</div><div>Crea un socket TCP y conecta a <code>(ip, puerto)</code></div></li>
+    <li><div class="step-dot">2</div><div>El servidor habla primero: recibe el mensaje de bienvenida</div></li>
+    <li><div class="step-dot">3</div><div>Env&iacute;a el nombre de usuario: <code>b"fast_rhino"</code></div></li>
+    <li><div class="step-dot">4</div><div>Recibe la respuesta con el identificador y la devuelve</div></li>
+  </ul>
+</div>
+<pre class="cb"><span class="kw">def</span> <span class="fn">hito0</span>(ip: <span class="ty">str</span>, puerto: <span class="ty">int</span>, username: <span class="ty">bytes</span>) -> <span class="ty">bytes</span>:
+    recibido: <span class="ty">bytes</span>
+
+    <span class="kw">with</span> socket.<span class="fn">socket</span>() <span class="kw">as</span> cliente:
+        cliente.<span class="fn">connect</span>((ip, puerto))
+
+        recibido = cliente.<span class="fn">recv</span>(<span class="vl">1024</span>)        <span class="cm"># bienvenida del servidor</span>
+        logging.<span class="fn">info</span>(recibido.<span class="fn">decode</span>())
+
+        cliente.<span class="fn">sendall</span>(username)              <span class="cm"># enviamos b"fast_rhino"</span>
+
+        recibido = cliente.<span class="fn">recv</span>(<span class="vl">1024</span>)        <span class="cm"># respuesta con identifier:</span>
+
+    <span class="kw">return</span> recibido
+
+<span class="cm"># Llamada en main():</span>
+recibido = <span class="fn">hito0</span>(<span class="st">"rick"</span>, <span class="vl">2000</span>, <span class="st">b"fast_rhino"</span>)
+
+<span class="cm"># Extraer el identificador para el siguiente hito:</span>
+identificador = <span class="fn">obtener_identificador</span>(recibido)</pre>
+<div class="nota gr"><strong>obtener_identificador:</strong> usa regex para extraer la l&iacute;nea <code>identifier:XXXX</code> de la respuesta. Este identificador se pasa a todos los hitos siguientes como contrase&ntilde;a de autenticaci&oacute;n.</div>
+</div>
+</section>
+
+<!-- HITO 1 -->
+<section class="tema" id="h1">
+<div class="teyebrow">Hito 1</div>
+<div class="ttitle">UDP + bind + desaf&iacute;o</div>
+<div class="tdesc">UDP bidireccional. Hay que bindear un puerto libre, comunicar ese puerto al servidor, y responder a un desaf&iacute;o.</div>
+
+<div class="blk" style="margin-top:1.5rem;">
+<div class="hito-card">
+  <div class="hito-top">
+    <span class="hito-num">Hito 1</span>
+    <span class="hito-title">UDP con bind y desaf&iacute;o upper-code</span>
+    <span class="hito-proto">UDP &mdash; rick:4000</span>
+  </div>
+  <ul class="step-list">
+    <li><div class="step-dot">1</div><div>Crea socket UDP y le hace bind a puerto 0 (el SO asigna uno libre)</div></li>
+    <li><div class="step-dot">2</div><div>Lee el puerto asignado con <code>getsockname()[1]</code></div></li>
+    <li><div class="step-dot">3</div><div>Env&iacute;a: <code>str(puerto_libre) + b" " + identificador</code></div></li>
+    <li><div class="step-dot">4</div><div>Si la respuesta es <code>b"upper-code?"</code>: env&iacute;a el identificador en may&uacute;sculas al socket origen</div></li>
+    <li><div class="step-dot">5</div><div>Recibe el enunciado del siguiente hito</div></li>
+  </ul>
+</div>
+<pre class="cb"><span class="kw">with</span> socket.<span class="fn">socket</span>(type=socket.SOCK_DGRAM) <span class="kw">as</span> servidor_udp:
+    servidor_udp.<span class="fn">bind</span>((<span class="st">""</span>, <span class="vl">0</span>))
+    puerto_libre = servidor_udp.<span class="fn">getsockname</span>()[<span class="vl">1</span>]
+
+    <span class="cm"># Mensaje: "12345 abc123" (puerto + espacio + identificador)</span>
+    mensaje = <span class="ty">bytes</span>(<span class="fn">str</span>(puerto_libre), encoding=<span class="st">"utf-8"</span>) + <span class="st">b" "</span> + identificador
+    servidor_udp.<span class="fn">sendto</span>(mensaje, (ip, puerto))
+
+    <span class="cm"># recvfrom devuelve (datos, (ip_origen, puerto_origen))</span>
+    recibido, socket_cliente_yinkana = servidor_udp.<span class="fn">recvfrom</span>(<span class="vl">1024</span>)
+
+    <span class="kw">if</span> recibido == <span class="st">b"upper-code?"</span>:
+        <span class="cm"># Desafio: responder al mismo socket con identificador en MAYUSCULAS</span>
+        servidor_udp.<span class="fn">sendto</span>(identificador.<span class="fn">upper</span>(), socket_cliente_yinkana)
+        recibido = servidor_udp.<span class="fn">recv</span>(<span class="vl">1024</span>)</pre>
+<div class="nota"><strong>Por qu&eacute; bind?</strong> En UDP no hay conexi&oacute;n. El servidor necesita saber a qu&eacute; puerto enviar la respuesta. Al hacer bind() y comunicar ese puerto, el servidor puede responder a nuestra direcci&oacute;n expl&iacute;citamente.</div>
+</div>
+</section>
+
+<!-- HITO 2 -->
+<section class="tema" id="h2">
+<div class="teyebrow">Hito 2</div>
+<div class="ttitle">Longitudes de palabras</div>
+<div class="tdesc">El servidor env&iacute;a palabras por TCP. Hay que calcular las longitudes y devolverlas como stream hasta superar 1000.</div>
+
+<div class="blk" style="margin-top:1.5rem;">
+<div class="hito-card">
+  <div class="hito-top">
+    <span class="hito-num">Hito 2</span>
+    <span class="hito-title">Stream de longitudes de palabras</span>
+    <span class="hito-proto">TCP &mdash; rick:3010</span>
+  </div>
+  <ul class="step-list">
+    <li><div class="step-dot">1</div><div>Conecta y env&iacute;a: <code>identificador + b" " + longitudes(socket, 1000) + b"--"</code></div></li>
+    <li><div class="step-dot">2</div><div><code>longitudes()</code>: recibe palabras separadas por espacios del servidor</div></li>
+    <li><div class="step-dot">3</div><div>Por cada palabra completa, a&ntilde;ade su longitud: si "hola" &rarr; a&ntilde;ade <code>b" 4 "</code></div></li>
+    <li><div class="step-dot">4</div><div>Para cuando la suma de longitudes supera 1000</div></li>
+    <li><div class="step-dot">5</div><div>Espera a recibir el enunciado que empiece con <code>b"identifier:"</code></div></li>
+  </ul>
+</div>
+<pre class="cb"><span class="kw">def</span> <span class="fn">longitudes</span>(tcp_socket: socket.socket, maximo: <span class="ty">int</span>) -> <span class="ty">bytes</span>:
+    suma: <span class="ty">int</span> = <span class="vl">0</span>
+    stream_numeros: <span class="ty">bytes</span> = <span class="st">b" "</span>
+    palabra: <span class="ty">bytes</span> = <span class="st">b""</span>   <span class="cm"># guardamos la palabra incompleta</span>
+
+    <span class="kw">while not</span> suma >= maximo:
+        recibido = tcp_socket.<span class="fn">recv</span>(<span class="vl">1024</span>)
+
+        <span class="cm"># Juntamos con la palabra anterior (puede estar cortada en el recv)</span>
+        lista_palabras = (palabra + recibido).<span class="fn">split</span>(<span class="st">b" "</span>)
+
+        <span class="kw">while not</span> suma >= maximo <span class="kw">and</span> <span class="fn">len</span>(lista_palabras) > <span class="vl">1</span>:
+            palabra = lista_palabras.<span class="fn">pop</span>(<span class="vl">0</span>)        <span class="cm"># quitar la primera palabra</span>
+            suma += <span class="fn">len</span>(palabra)
+            stream_numeros += <span class="ty">bytes</span>(<span class="fn">str</span>(<span class="fn">len</span>(palabra)), encoding=<span class="st">"utf-8"</span>) + <span class="st">b" "</span>
+
+        <span class="cm"># La ultima puede estar a medias, guardar para el proximo recv</span>
+        palabra = lista_palabras.<span class="fn">pop</span>(<span class="vl">0</span>)
+
+    <span class="kw">return</span> stream_numeros
+
+<span class="cm"># Se envia todo junto antes de esperar respuesta:</span>
+cliente.<span class="fn">sendall</span>(identificador + <span class="st">b" "</span> + <span class="fn">longitudes</span>(cliente, <span class="vl">1000</span>) + <span class="st">b"--"</span>)</pre>
+<div class="nota"><strong>El problema del fragmentado TCP:</strong> TCP puede partir una palabra por la mitad entre dos recv(). Por eso se guarda la &uacute;ltima palabra incompleta y se une con el pr&oacute;ximo recv() antes de hacer split.</div>
+</div>
+</section>
+
+<!-- HITO 3 -->
+<section class="tema" id="h3">
+<div class="teyebrow">Hito 3</div>
+<div class="ttitle">Cifrado C&eacute;sar</div>
+<div class="tdesc">El servidor env&iacute;a palabras cifradas. Hay que encontrar el n&uacute;mero de desplazamiento en el stream y descifrar las &uacute;ltimas N palabras.</div>
+
+<div class="blk" style="margin-top:1.5rem;">
+<div class="hito-card">
+  <div class="hito-top">
+    <span class="hito-num">Hito 3</span>
+    <span class="hito-title">Descifrado C&eacute;sar</span>
+    <span class="hito-proto">TCP &mdash; rick:6501</span>
+  </div>
+  <ul class="step-list">
+    <li><div class="step-dot">1</div><div>Conecta y env&iacute;a el identificador</div></li>
+    <li><div class="step-dot">2</div><div>Recibe el stream de palabras cifradas hasta encontrar un n&uacute;mero X</div></li>
+    <li><div class="step-dot">3</div><div>Retrocede X palabras antes del n&uacute;mero en el stream</div></li>
+    <li><div class="step-dot">4</div><div>Descifra esas X palabras desplazando cada letra X posiciones (C&eacute;sar circular)</div></li>
+    <li><div class="step-dot">5</div><div>Env&iacute;a las palabras descifradas + <code>b"--"</code></div></li>
+  </ul>
+</div>
+<pre class="cb"><span class="kw">def</span> <span class="fn">descifrar_chr</span>(c: <span class="ty">int</span>, numero: <span class="ty">int</span>) -> <span class="ty">int</span>:
+    <span class="cm"># c es un int (codigo ASCII) porque al iterar bytes Python da ints</span>
+    <span class="cm"># Cifrado Cesar: mover c tantas posiciones a la derecha</span>
+    <span class="kw">if</span> <span class="fn">chr</span>(c).<span class="fn">islower</span>():
+        <span class="kw">if</span> c + numero > <span class="fn">ord</span>(<span class="st">"z"</span>):       <span class="cm"># si se pasa de 'z', vuelve desde 'a'</span>
+            <span class="kw">return</span> <span class="fn">ord</span>(<span class="st">"a"</span>) + numero - <span class="vl">1</span> - (<span class="fn">ord</span>(<span class="st">"z"</span>) - c)
+        <span class="kw">return</span> c + numero
+    <span class="kw">if</span> <span class="fn">chr</span>(c).<span class="fn">isupper</span>():
+        <span class="kw">if</span> c + numero > <span class="fn">ord</span>(<span class="st">"Z"</span>):
+            <span class="kw">return</span> <span class="fn">ord</span>(<span class="st">"A"</span>) + numero - <span class="vl">1</span> - (<span class="fn">ord</span>(<span class="st">"Z"</span>) - c)
+        <span class="kw">return</span> c + numero
+    <span class="kw">return</span> c                            <span class="cm"># no es letra: no tocar</span>
+
+<span class="cm"># Generator expression: aplica descifrar_chr a cada byte del recorte</span>
+<span class="cm"># bytes(int, int, int, ...) construye un bytes a partir de ints</span>
+recorte = <span class="ty">bytes</span>(<span class="fn">descifrar_chr</span>(c, numero) <span class="kw">for</span> c <span class="kw">in</span> recorte)</pre>
+<div class="nota"><strong>Cifrado C&eacute;sar:</strong> 'a' desplazada 3 &rarr; 'd'. 'z' desplazada 1 &rarr; 'a' (circular). El n&uacute;mero X en el stream indica el desplazamiento Y cu&aacute;ntas palabras antes del n&uacute;mero hay que descifrar.</div>
+</div>
+</section>
+
+<!-- HITO 4 -->
+<section class="tema" id="h4">
+<div class="teyebrow">Hito 4</div>
+<div class="ttitle">Hash MD5 de fichero</div>
+<div class="tdesc">El servidor env&iacute;a un fichero con cabecera de longitud. Hay que calcular su MD5 acumulativo y enviarlo.</div>
+
+<div class="blk" style="margin-top:1.5rem;">
+<div class="hito-card">
+  <div class="hito-top">
+    <span class="hito-num">Hito 4</span>
+    <span class="hito-title">MD5 con protocolo longitud:datos</span>
+    <span class="hito-proto">TCP &mdash; rick:9000</span>
+  </div>
+  <ul class="step-list">
+    <li><div class="step-dot">1</div><div>Conecta y env&iacute;a el identificador</div></li>
+    <li><div class="step-dot">2</div><div>Recibe el primer chunk: <code>b"1234:primerosbytes..."</code></div></li>
+    <li><div class="step-dot">3</div><div>Separa por <code>b":"</code> con m&aacute;ximo 1 split para obtener longitud y datos</div></li>
+    <li><div class="step-dot">4</div><div>Bucle: <code>hasher.update(chunk)</code>, descuenta bytes, pide m&aacute;s hasta llegar a 0</div></li>
+    <li><div class="step-dot">5</div><div>Env&iacute;a <code>hasher.digest()</code> (16 bytes raw del MD5)</div></li>
+  </ul>
+</div>
+<pre class="cb"><span class="kw">def</span> <span class="fn">hito4</span>(ip: <span class="ty">str</span>, puerto: <span class="ty">int</span>, identificador: <span class="ty">bytes</span>) -> <span class="ty">bytes</span>:
+    hasher = hashlib.<span class="fn">md5</span>()
+
+    <span class="kw">with</span> socket.<span class="fn">socket</span>() <span class="kw">as</span> cliente:
+        cliente.<span class="fn">connect</span>((ip, puerto))
+        cliente.<span class="fn">sendall</span>(identificador)
+
+        recibido = cliente.<span class="fn">recv</span>(<span class="vl">1024</span>)
+
+        <span class="cm"># Protocolo: "longitud:primerosdatos"</span>
+        <span class="cm"># split con maxsplit=1 para no partir los datos si tienen ":"</span>
+        longitud_b, recibido = recibido.<span class="fn">split</span>(<span class="st">b":"</span>, <span class="vl">1</span>)
+        longitud = <span class="fn">int</span>(longitud_b.<span class="fn">decode</span>())
+
+        <span class="kw">while</span> longitud > <span class="vl">0</span>:
+            hasher.<span class="fn">update</span>(recibido)            <span class="cm"># acumular en el hash</span>
+            longitud -= <span class="fn">len</span>(recibido)          <span class="cm"># descontar bytes procesados</span>
+            recibido = cliente.<span class="fn">recv</span>(<span class="fn">min</span>(longitud, <span class="vl">1024</span>))
+
+        cliente.<span class="fn">sendall</span>(hasher.<span class="fn">digest</span>())      <span class="cm"># 16 bytes raw del MD5</span>
+        recibido = cliente.<span class="fn">recv</span>(<span class="vl">2048</span>)
+
+    <span class="kw">return</span> recibido</pre>
+<div class="nota"><strong>min(longitud, 1024):</strong> evita pedir m&aacute;s bytes de los que faltan. Si faltan 50 bytes, pedimos solo 50. As&iacute; el bucle termina limpiamente cuando <code>longitud</code> llega a 0.</div>
+</div>
+</section>
+
+<!-- HITO 5 -->
+<section class="tema" id="h5">
+<div class="teyebrow">Hito 5</div>
+<div class="ttitle">Protocolo YAP sobre UDP</div>
+<div class="tdesc">Implementaci&oacute;n de un protocolo propio con cabecera binaria (struct), checksum y carga codificada en base64.</div>
+
+<div class="blk" style="margin-top:1.5rem;">
+<div class="hito-card">
+  <div class="hito-top">
+    <span class="hito-num">Hito 5</span>
+    <span class="hito-title">Protocolo YAP &mdash; struct + base64 + checksum</span>
+    <span class="hito-proto">UDP &mdash; rick:6001</span>
+  </div>
+  <ul class="step-list">
+    <li><div class="step-dot">1</div><div>Construye cabecera YAP con checksum=0 usando <code>struct.pack("!3sHBHH", b"YAP", 0, 0, 0, 1)</code></div></li>
+    <li><div class="step-dot">2</div><div>Codifica el identificador en base64</div></li>
+    <li><div class="step-dot">3</div><div>Calcula <code>cksum(cabecera + carga)</code> y reempaqueta la cabecera con la suma real</div></li>
+    <li><div class="step-dot">4</div><div>Env&iacute;a por UDP con <code>sendto()</code>, recibe respuesta y desempaqueta</div></li>
+  </ul>
+</div>
+<pre class="cb"><span class="cm"># Estructura del paquete YAP (10 bytes cabecera + carga):</span>
+<span class="cm"># Bytes 0-2:  "YAP" (numero magico, 3 bytes)</span>
+<span class="cm"># Bytes 3-4:  tipo  (unsigned short = 2 bytes)</span>
+<span class="cm"># Byte  5:    codigo (unsigned char = 1 byte)</span>
+<span class="cm"># Bytes 6-7:  checksum (unsigned short = 2 bytes)</span>
+<span class="cm"># Bytes 8-9:  secuencia (unsigned short = 2 bytes)</span>
+<span class="cm"># Bytes 10+:  carga en base64</span>
+
+<span class="kw">def</span> <span class="fn">preparar_peticion_yap</span>(carga: <span class="ty">bytes</span>) -> <span class="ty">bytes</span>:
+    <span class="cm"># Paso 1: cabecera inicial con checksum=0</span>
+    cabecera = struct.<span class="fn">pack</span>(<span class="st">"!3sHBHH"</span>, <span class="st">b"YAP"</span>, <span class="vl">0</span>, <span class="vl">0</span>, <span class="vl">0</span>, <span class="vl">1</span>)
+    <span class="cm"># Paso 2: codificar la carga en base64</span>
+    carga_codificada = base64.<span class="fn">b64encode</span>(carga)
+    <span class="cm"># Paso 3: calcular checksum del paquete completo</span>
+    suma = <span class="fn">cksum</span>(cabecera + carga_codificada)
+    <span class="cm"># Paso 4: reempaquetar con el checksum real</span>
+    cabecera = struct.<span class="fn">pack</span>(<span class="st">"!3sHBHH"</span>, <span class="st">b"YAP"</span>, <span class="vl">0</span>, <span class="vl">0</span>, suma, <span class="vl">1</span>)
+    <span class="kw">return</span> cabecera + carga_codificada
+
+<span class="kw">def</span> <span class="fn">desempaquetar_mensaje_yap</span>(mensaje: <span class="ty">bytes</span>) -> <span class="ty">bytes</span>:
+    <span class="cm"># Desempaquetar los primeros 10 bytes = cabecera</span>
+    num_mag, tipo, codigo, suma, seq = struct.<span class="fn">unpack</span>(<span class="st">"!3sHBHH"</span>, mensaje[:<span class="vl">10</span>])
+    carga = mensaje[<span class="vl">10</span>:]              <span class="cm"># todo lo que hay despues</span>
+    <span class="kw">return</span> base64.<span class="fn">b64decode</span>(carga)    <span class="cm"># decodificar base64</span></pre>
+<div class="nota"><strong>El checksum</strong> sirve para detectar errores de transmisi&oacute;n. Se calcula sobre el paquete completo (cabecera con checksum=0 + carga). El receptor verifica que el checksum es correcto antes de procesar el paquete.</div>
+</div>
+</section>
+
+<!-- HITO 6 -->
+<section class="tema" id="h6">
+<div class="teyebrow">Hito 6</div>
+<div class="ttitle">Proxy HTTP + servidor + hilos</div>
+<div class="tdesc">El m&aacute;s complejo. Hay que montar un servidor HTTP, actuar de proxy hacia otro servidor y gestionar peticiones en paralelo con hilos.</div>
+
+<div class="blk" style="margin-top:1.5rem;">
+<div class="hito-card">
+  <div class="hito-top">
+    <span class="hito-num">Hito 6</span>
+    <span class="hito-title">Proxy HTTP con hilos</span>
+    <span class="hito-proto">TCP &mdash; rick:8003 + servidor propio + web:81</span>
+  </div>
+  <ul class="step-list">
+    <li><div class="step-dot">1</div><div>Crea un servidor TCP en un puerto libre y hace listen</div></li>
+    <li><div class="step-dot">2</div><div>Conecta a rick:8003 y env&iacute;a: <code>identificador + b" " + str(puerto_libre)</code></div></li>
+    <li><div class="step-dot">3</div><div>Lanza un hilo para aceptar las peticiones HTTP que manda la yinkana</div></li>
+    <li><div class="step-dot">4</div><div>Para peticiones de archivo: actua de proxy (GET a web:81 y reenv&iacute;a la respuesta)</div></li>
+    <li><div class="step-dot">5</div><div>Para la petici&oacute;n <code>/submit?...</code>: guarda el enunciado en variable global</div></li>
+    <li><div class="step-dot">6</div><div>Escucha errores en la conexi&oacute;n principal hasta que se cierra</div></li>
+  </ul>
+</div>
+<pre class="cb"><span class="cm"># Variable global compartida entre hilos</span>
+enunciado = <span class="kw">None</span>
+
+<span class="cm"># El proxy construye una peticion HTTP GET valida</span>
+cabecera = (
+    <span class="st">b"GET /rfc"</span> + nombre_archivo + <span class="st">b" HTTP/1.1\r\n"</span>
+    + <span class="st">b"Host: "</span> + ip.<span class="fn">encode</span>() + <span class="st">b":"</span>
+    + <span class="ty">bytes</span>(<span class="fn">str</span>(puerto), encoding=<span class="st">"utf-8"</span>)
+    + <span class="st">b"\r\nConnection: close\r\n\r\n"</span>
+)
+
+<span class="cm"># Lanzar un hilo: _thread.start_new_thread(funcion, (args,))</span>
+<span class="cm"># Los argumentos van en una tupla como segundo argumento</span>
+_thread.<span class="fn">start_new_thread</span>(bucle_aceptar, (servidor, ip_archivos, puerto_archivos))
+
+<span class="cm"># bucle_aceptar: acepta peticiones hasta que enunciado no sea None</span>
+<span class="kw">while</span> enunciado <span class="kw">is None</span>:
+    peticion, _ = servidor.<span class="fn">accept</span>()
+    <span class="cm"># lanza otro hilo para cada peticion</span>
+    _thread.<span class="fn">start_new_thread</span>(tratar_peticion, (peticion, ip, puerto))
+
+<span class="cm"># Detectar si es archivo o submit:</span>
+uri = recibido.<span class="fn">split</span>(<span class="st">b" "</span>)[<span class="vl">1</span>]                    <span class="cm"># GET /rfc... HTTP/1.1 -> /rfc...</span>
+pide_archivo = <span class="kw">not</span> uri.<span class="fn">startswith</span>(<span class="st">b"/submit"</span>)
+<span class="kw">if</span> pide_archivo:
+    <span class="fn">hacer_de_proxy</span>(peticion, uri, ip, puerto)
+<span class="kw">else</span>:
+    enunciado = urllib.parse.<span class="fn">unquote</span>(uri)[<span class="fn">len</span>(<span class="st">b"/submit?"</span>):].<span class="fn">encode</span>()</pre>
+<div class="nota re"><strong>El hito m&aacute;s dif&iacute;cil:</strong> requiere entender HTTP, proxying, threading y variables globales compartidas. Si algo falla, revisa que el servidor est&aacute; escuchando en el puerto correcto y que ese puerto se comunica bien al servidor de la yinkana.</div>
+</div>
+</section>
+
+<!-- HITO 7 -->
+<section class="tema" id="h7">
+<div class="teyebrow">Hito 7</div>
+<div class="ttitle">Final &mdash; The cake is a lie</div>
+<div class="tdesc">El &uacute;ltimo hito. Simple como el primero: TCP, enviar identificador, recibir el mensaje de victoria.</div>
+
+<div class="blk" style="margin-top:1.5rem;">
+<div class="hito-card">
+  <div class="hito-top">
+    <span class="hito-num">Hito 7</span>
+    <span class="hito-title">TCP simple &mdash; victoria</span>
+    <span class="hito-proto">TCP &mdash; rick:33333</span>
+  </div>
+  <ul class="step-list">
+    <li><div class="step-dot">1</div><div>Conecta a rick:33333</div></li>
+    <li><div class="step-dot">2</div><div>Env&iacute;a el identificador del hito anterior</div></li>
+    <li><div class="step-dot">3</div><div>Recibe y devuelve el mensaje final</div></li>
+  </ul>
+</div>
+<pre class="cb"><span class="kw">def</span> <span class="fn">hito7</span>(ip: <span class="ty">str</span>, puerto: <span class="ty">int</span>, identificador: <span class="ty">bytes</span>) -> <span class="ty">bytes</span>:
+    <span class="kw">with</span> socket.<span class="fn">socket</span>() <span class="kw">as</span> cliente:
+        cliente.<span class="fn">connect</span>((ip, puerto))
+        cliente.<span class="fn">sendall</span>(identificador)
+        <span class="kw">return</span> cliente.<span class="fn">recv</span>(<span class="vl">1024</span>)
+
+<span class="cm"># This was a triumph!</span>
+<span class="cm"># I'm making a note here: "Huge success!!"</span>
+<span class="cm"># THE CAKE IS A LIE!!!!!!!</span></pre>
+
+<div class="blk" style="margin-top:2rem;">
+<div class="blk-lbl lbl-gr">Flujo completo de la yinkana</div>
+<pre class="cb"><span class="cm"># main() ejecuta en cadena:</span>
+recibido = <span class="fn">hito0</span>(<span class="st">"rick"</span>, <span class="vl">2000</span>, usuario)
+recibido = <span class="fn">hito1</span>(<span class="st">"rick"</span>, <span class="vl">4000</span>, <span class="fn">obtener_identificador</span>(recibido))
+recibido = <span class="fn">hito2</span>(<span class="st">"rick"</span>, <span class="vl">3010</span>, <span class="fn">obtener_identificador</span>(recibido), <span class="vl">1000</span>)
+recibido = <span class="fn">hito3</span>(<span class="st">"rick"</span>, <span class="vl">6501</span>, <span class="fn">obtener_identificador</span>(recibido))
+recibido = <span class="fn">hito4</span>(<span class="st">"rick"</span>, <span class="vl">9000</span>, <span class="fn">obtener_identificador</span>(recibido))
+recibido = <span class="fn">hito5</span>(<span class="st">"rick"</span>, <span class="vl">6001</span>, <span class="fn">obtener_identificador</span>(recibido))
+recibido = <span class="fn">hito6</span>(<span class="st">"rick"</span>, <span class="vl">8003</span>, <span class="fn">obtener_identificador</span>(recibido), <span class="st">"web"</span>, <span class="vl">81</span>)
+recibido = <span class="fn">hito7</span>(<span class="st">"rick"</span>, <span class="vl">33333</span>, <span class="fn">obtener_identificador</span>(recibido))
+<span class="cm"># VICTORIA</span></pre>
+</div>
+
+<div class="blk">
+<div class="blk-lbl lbl-pu">Consejos para la yinkana</div>
+<div class="cbox"><strong>Cambia el usuario:</strong> busca <code>usuario: bytes = b"fast_rhino"</code> en main() y pon tu nombre de usuario.</div>
+<div class="cbox"><strong>Activa logging DEBUG:</strong> con <code>level=logging.DEBUG</code> ves todo lo que se env&iacute;a y recibe. Imprescindible para depurar.</div>
+<div class="cbox"><strong>TCP fragmenta:</strong> nunca asumas que un recv() te da el mensaje completo. Usa siempre un bucle con condici&oacute;n de parada.</div>
+<div class="cbox"><strong>Bytes everywhere:</strong> todo lo que va a la red son bytes. <code>.encode()</code> para convertir str a bytes, <code>.decode()</code> para lo contrario.</div>
+<div class="cbox"><strong>Si un hito falla:</strong> imprime exactamente lo que recibes con <code>logging.debug(recibido)</code> antes de procesarlo. El protocolo puede haber cambiado entre ediciones.</div>
+</div>
+</div>
+</section>
+
+</main>
+<script>
+function tog(h){const b=h.nextElementSibling,a=h.querySelector('.ejarr'),o=b.classList.contains('open');b.classList.toggle('open',!o);a.classList.toggle('open',!o);}
+document.querySelector('.ntog').addEventListener('click',()=>document.getElementById('snav').classList.toggle('open'));
+document.addEventListener('click',e=>{const n=document.getElementById('snav'),b=document.querySelector('.ntog');if(!n.contains(e.target)&&!b.contains(e.target))n.classList.remove('open');});
+const secs=document.querySelectorAll('section[id]'),lks=document.querySelectorAll('.snav a[href^="#"]');
+window.addEventListener('scroll',()=>{let c='';secs.forEach(s=>{if(window.scrollY>=s.offsetTop-120)c=s.id;});lks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+c));});
+</script>
+</body>
+</html>
