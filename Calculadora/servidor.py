@@ -31,9 +31,12 @@ def menuOperaciones(data, connection):
             resultado = int(data[1]) * int(data[2])
             connection.send(f"El resultado de la multiplicacion es: {resultado}".encode())
         case "division":
-            resultado = int(data[1]) / int(data[2])
-            connection.send(f"El resultado de la division es: {resultado}".encode())
-
+            try:
+             resultado = int(data[1]) / int(data[2])
+             connection.send(f"El resultado de la division es: {resultado}".encode())
+            except ZeroDivisionError:
+                connection.send("Error: No se puede dividir por cero".encode())
+            
         case _:
             connection.send("Operación no reconocida".encode())
 if __name__ == "__main__":
